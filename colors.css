@@ -1,0 +1,44 @@
+body {
+    margin: 0;
+    font-family: helvetica;
+}
+
+h1 {
+    background: #f16529;
+    border-bottom: 20px solid #e44d26;
+    box-shadow: #aaa 0px 5px 10px 0px;
+    color: white;
+    margin: 0;
+    padding: 10px;
+}
+
+button {
+    cursor: pointer;
+    font-size:100%;
+}
+
+section, footer, h1 {
+    padding: 10px;
+}
+
+.clearfix:after {
+    clear: both;
+    content: " ";
+    display: block;
+    font-size: 0;
+    height: 0;
+    visibility: hidden;
+}
+
+.tile {
+    border: 1px solid #bbb;
+    cursor: pointer;
+    float: left;
+    height: 30px;
+    margin: 5px 5px 0 0;
+    width: 30px;
+}
+
+.row {
+    clear: left;
+}
