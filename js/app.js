@@ -1,101 +1,73 @@
-/**
- * @fileoverview Defines and initializes the colors module.
- *
- * Binds click functionality to each color tile:
- *   - Toggles between a random color and white.
- *
- * Binds click functionality to a clear button:
- *   - Resets all tiles to white.
- *
- * Binds click functionality on a save button:
- *    - Saves the current grid into local storage so the last state persists after save.
- */
+(function() {
 
-/**
- * Colors module.
- */
-window.colors = (function() {
+  var App = Ember.Application.create();
 
-    // Private
-    var util = {
-        getRandomColor: function() {
-            var chars = '0123456789ABCDEF'.split('');
-            var color = '#';
-            for (var i = 0; i < 6; i++ ) {
-                color += chars[Math.floor(Math.random() * 16)];
-            }
-            return color;
-        },
-        getTiles: function() {
-            return Array.prototype.slice.call(document.querySelectorAll('.tile'));
-        },
-        hasClass: function(element, value) {
-            return element.className.indexOf(' ' + value) + 1;
-        },
-        addClass: function(element, value) {
-            element.className += ' ' + value;
-        },
-        removeClass: function(element, value) {
-            element.className = element.className.replace(' ' + value, '');
+  App.IndexRoute = Ember.Route.extend({
+    constants: {
+      LOCAL_STORAGE_KEY: 'colors',
+      EMPTY_MODEL: Array(100).join(',').split(',')
+    },
+    model: function() {
+      return JSON.parse(localStorage.getItem(this.constants.LOCAL_STORAGE_KEY)) ||
+        this.constants.EMPTY_MODEL;
+    },
+    tiles: function() {
+      return $('.grid div');
+    },
+    actions: {
+      toggle: function(target) {
+        if (target.tagName.toLowerCase() === 'div') {
+          var color = '';
+          if (target.style.background === color) {
+            color = '#' + Math.random().toString(16).slice(2,8);
+          }
+          $(target).find('code').text(color);
+          target.style.background = color;
         }
-    };
+      },
+      save: function() {
+        var colors = [];
+        this.tiles().each(function(index) {
+          colors.push(this.style.background);
+        });
+        localStorage.setItem(this.constants.LOCAL_STORAGE_KEY, JSON.stringify(colors));
+      },
+      clear: function() {
+        this.tiles().each(function(index) {
+          $(this).css('background', '');
+        });
+      }
+    }
+  });
 
-    // Public
-    return {
-        init: function() {
+  App.ButtonsView = Ember.View.extend({
+    classNames: ['buttons'],
+    click: function(event) {
+      this.get('controller').send(event.target.id);
+    }
+  });
 
-            var tiles = util.getTiles();
-            var toggleClass = 'on';
-            var localStorageKey = 'colors';
+  App.GridView = Ember.View.extend({
+    classNames: ['grid'],
+    click: function(event) {
+      this.get('controller').send('toggle', event.target);
+    }
+  });
 
-            // Bind color toggle.
-            tiles.forEach(function(tile, index, tiles) {
-                tile.addEventListener('click', function(event) {
-                    if (util.hasClass(tile, toggleClass)) {
-                        util.removeClass(tile, toggleClass);
-                        tile.style.background = '';
-                    } else {
-                        util.addClass(tile, toggleClass);
-                        tile.style.background = util.getRandomColor();
-                    }
-                });
-            });
+  Ember.Handlebars.registerHelper('hex', function(options) {
+    var hex = '';
+    var color = this.get('model')[options.data.view.contentIndex];
+    if (color) {
+      var parts = color.split('(')[1].split(')')[0].split(',');
+      for (var i = 0, l = parts.length; i < l; i++) {
+        hex += (parseInt(parts[i], 10).toString(16) + '0').substring(0, 2);
+      };
+    }
+    return hex;
+  });
 
-            // Bind clear color.
-            var clear = document.getElementById('clear');
-            clear.addEventListener('click', function(event) {
-                tiles.forEach(function(tile, index, tiles) {
-                    util.removeClass(tile, toggleClass);
-                    tile.style.background = '';
-                });
-            });
+  Ember.Handlebars.registerHelper('index', function(options) {
+    return options.data.view.contentIndex + 1;
+  });
 
-            // Bind save to local storage.
-            var save = document.getElementById('save');
-            save.addEventListener('click', function(event) {
-                var data = [];
-                tiles.forEach(function(tile, index, title) {
-                    data.push(tile.style.background);
-                });
-                window.localStorage.setItem(localStorageKey, window.JSON.stringify(data));
-            });
-
-            // Load last saved from local storage.
-            var saved = window.JSON.parse(window.localStorage.getItem(localStorageKey));
-            if (saved) {
-                tiles.forEach(function(tile, index, tiles) {
-                    var color = saved[index];
-                    if (color) {
-                        tile.style.background = color;
-                        util.addClass(tile, toggleClass);
-                    }
-                });
-            }
-        }
-    };
-}());
-
-// Initialize on load.
-window.addEventListener('load', function() {
-    window.colors.init();
-});
+})();

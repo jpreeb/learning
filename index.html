@@ -1,110 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Colors</title>
-    <script src="colors.js"></script>
-    <link rel="stylesheet" href="colors.css" />
+  <meta charset="utf-8">
+  <title>Random Color Picker</title>
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+  <script type="text/x-handlebars">
     <header>
-        <h1>Colors</h1>
+      <h1>Random Color Picker</h1>
     </header>
-    <section>
-        <div class="row clearfix">
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-        </div>
-        <div class="row clearfix">
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-        </div>
-        <div class="row clearfix">
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-        </div>
-        <div class="row clearfix">
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-        </div>
-        <div class="row clearfix">
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-        </div>
-        <div class="row clearfix">
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-        </div>
-        <div class="row clearfix">
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-            <div class="tile"></div>
-        </div>
-    </section>
-    <footer>
-        <button id="clear">Clear</button>
-        <button id="save">Save</button>
-    </footer>
+      <section>
+        {{outlet}}
+      </section>
+    <footer></footer>
+  </script>
+  <script type="text/x-handlebars" id="index">
+    {{#view "buttons"}}
+      <button id="save">Save Progress</button>
+      <button id="clear">Clear Colors</button>
+    {{/view}}
+    {{#view "grid" itemViewClass="App.ItemView"}}
+      {{#each color in model}}
+          <div style="background:{{color}};">
+            <code>{{hex}}</code>
+            <span>{{index}}</span>
+          </div>
+      {{/each}}
+    {{/view}}
+  </script>
+  <script src="js/libs/jquery-1.10.2.js"></script>
+  <script src="js/libs/handlebars-v1.3.0.js"></script>
+  <script src="js/libs/ember-1.8.1.js"></script>
+  <script src="js/app.js"></script>
 </body>
 </html>

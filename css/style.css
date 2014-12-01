@@ -1,44 +1,76 @@
 body {
-    margin: 0;
-    font-family: helvetica;
+  margin: 0;
+  font-family: helvetica;
+}
+
+header {
+  background: #f16529;
+  border-bottom: 20px solid #e44d26;
+  box-shadow: #aaa 0px 5px 10px 0px;
+  color: white;
+  margin: 0;
+  padding: 10px;
+  text-align: center;
 }
 
 h1 {
-    background: #f16529;
-    border-bottom: 20px solid #e44d26;
-    box-shadow: #aaa 0px 5px 10px 0px;
-    color: white;
-    margin: 0;
-    padding: 10px;
+  margin: 0;
 }
 
-button {
-    cursor: pointer;
-    font-size:100%;
+section {
+  width: 830px;
+  margin: 0 auto;
+  padding: 10px 0;
 }
 
-section, footer, h1 {
-    padding: 10px;
+section:after {
+  clear: both;
+  content: "";
+  display: table;
 }
 
-.clearfix:after {
-    clear: both;
-    content: " ";
-    display: block;
-    font-size: 0;
-    height: 0;
-    visibility: hidden;
+div.grid div {
+  border: 1px solid #bbb;
+  color: white;
+  cursor: pointer;
+  float: left;
+  font-size: 11px;
+  height: 75px;
+  margin: 1px;
+  padding: 2px;
+  position: relative;
+  width: 75px;
 }
 
-.tile {
-    border: 1px solid #bbb;
-    cursor: pointer;
-    float: left;
-    height: 30px;
-    margin: 5px 5px 0 0;
-    width: 30px;
+div.grid div:after {
+  border-bottom: 0 solid transparent;
+  border-right: 30px solid #bbb;
+  border-top: 30px solid transparent;
+  bottom: 0;
+  content: "";
+  height: 0;
+  position: absolute;
+  right: 0;
+  width: 0;
 }
 
-.row {
-    clear: left;
+div.grid div span {
+  bottom: -1px;
+  position: absolute;
+  right: 1px;
+  z-index: 2;
+}
+
+div.buttons {
+  text-align: center;
+  margin: 10px 0 20px;
+}
+
+div.buttons button {
+  cursor: pointer;
+  font-size:100%;
+}
+
+footer {
+  clear: left;
 }
